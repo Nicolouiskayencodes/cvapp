@@ -1,0 +1,21 @@
+.personal-submit{
+  padding: 10px;
+}
+h1{
+  font-size: 25px;
+}
+label{
+  margin: 5px;
+}
+.personal-form{
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+.submit{
+  margin: 5px;
+}
+.personal-submit>h1{
+  font-size: 30px;
+}

@@ -1,0 +1,24 @@
+.work-form{
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.work-submit{
+  display: grid;
+  grid-template-columns: 0 15vw 15vw 1fr 1fr 20vw;
+  border-bottom: 1px solid;
+}
+.work-submit > h1 {
+  font-size: 18px;
+  font-weight: 500;
+}
+.work>h1{
+  font-size: 30px;
+}
+.add{
+  padding: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
