@@ -3,15 +3,29 @@ import "../styles/education.css"
 
 export default function Education(){
   const [schools, editSchools]=useState([{id: crypto.randomUUID(), school:"", study: "", date:"", submitted:false}]);
+  let copyschools = [];
+  schools.forEach(place=>copyschools.push(place));
 
 
-  function School({id, schoolprop="", studyprop="", dateprop="", submitted=false}){
-    const [school, setSchool]=useState(schoolprop)
-    const [study, setStudy]=useState(studyprop);
-    const [date, setDate]=useState(dateprop);
+  function School({schoolObject}){
+ 
+
+    const [school, setSchool]=useState(schoolObject.school)
+    const [study, setStudy]=useState(schoolObject.study);
+    const [date, setDate]=useState(schoolObject.date);
+    const id = schoolObject.id;
+    let copyIndex = null;
+    for (let i=0; i<schools.length; i++) {
+      if (schools[i].id === id){
+        copyIndex = schools[i]
+      }
+    }
+    copyIndex.school = school;
+    copyIndex.study = study;
+    copyIndex.date = date;
 
     function Submit(){
-      if (submitted === false){
+      if (schoolObject.submitted === false){
         const schoolInfo = {id, school, study, date, submitted: true}
         editSchools([...schools.map(place => {
           if (place.id !== id){
@@ -19,7 +33,7 @@ export default function Education(){
           } else{
             return schoolInfo
           }})])
-      } else if (submitted === true){
+      } else if (schoolObject.submitted === true){
         const schoolInfo = {id, school, study, date, submitted: false}
         editSchools([...schools.map(place => {
           if (place.id !== id){
@@ -32,7 +46,7 @@ export default function Education(){
     function Delete(){
       editSchools([...schools.filter(place => place.id !== id)])
     }
-    if (submitted ===false) {return(
+    if (schoolObject.submitted ===false) {return(
       <div className="education-form">
       <br/>
       <label>
@@ -64,7 +78,7 @@ export default function Education(){
       </label>
       <button className="submit" onClick={Submit}>Submit</button>
       </div>
-    )} else if (submitted === true){
+    )} else if (schoolObject.submitted === true){
       return(
         <div className="education-submit">
         <br/>
@@ -81,13 +95,13 @@ export default function Education(){
   }
 
   function Add() {
-    editSchools([...schools, {id: crypto.randomUUID(), school:"", study: "", date:"", submitted:false}])
+    editSchools([...copyschools, {id: crypto.randomUUID(), school:"", study: "", date:"", submitted:false}])
   }
 
   return(
     <div className="education">
     <h1>Eduction</h1>
-    {schools.map(place => <School key={place.id} id={place.id} schoolprop={place.school} studyprop={place.study} dateprop={place.date} submitted={place.submitted}/>)}
+    {schools.map(place => <School key={place.id} schoolObject={place}/>)}
     <button className="add" onClick={Add}>+</button>
     </div>
   )

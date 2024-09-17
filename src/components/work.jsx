@@ -3,24 +3,36 @@ import "../styles/work.css"
 
 export default function Work(){
   const [jobs, editJobs]=useState([{id: crypto.randomUUID(), company:"", role:"", responsibility:"", date:"", submitted:false}]);
+  let copyjobs = [];
+  jobs.forEach(place => copyjobs.push(place))
 
-  function Job({id, companyprop, roleprop, responseprop, dateprop, submitted}){
-    const [company, setCompany]= useState(companyprop);
-    const [role, setRole]=useState(roleprop);
-    const [responsibility, setResponsibility]=useState(responseprop);
-    const [date, setDate]=useState(dateprop);
+  function Job({jobObject}){
+    const [company, setCompany]= useState(jobObject.company);
+    const [role, setRole]=useState(jobObject.role);
+    const [responsibility, setResponsibility]=useState(jobObject.responsibility);
+    const [date, setDate]=useState(jobObject.date);
+    const id = jobObject.id;
+    let copyIndex = null;
+    for (let i=0; i<jobs.length; i++) {
+      if (jobs[i].id === id){
+        copyIndex = jobs[i]
+      }
+    }
+    copyIndex.company = company;
+    copyIndex.role = role;
+    copyIndex.responsibility = responsibility;
+    copyIndex.date = date;
 
     function Submit(){
-      if (submitted === false){
+      if (jobObject.submitted === false){
         const jobInfo = {id, company, role, responsibility, date, submitted: true}
-        console.log(jobInfo)
         editJobs([...jobs.map(workplace => {
           if (workplace.id !== id){
             return workplace
           } else{
             return jobInfo
           }})])
-      } else if (submitted === true){
+      } else if (jobObject.submitted === true){
         const schoolInfo = {id, company, role, responsibility, date, submitted: false}
         editJobs([...jobs.map(workplace => {
           if (workplace.id !== id){
@@ -34,7 +46,7 @@ export default function Work(){
       editJobs([...jobs.filter(workplace => workplace.id !== id)])
     }
     
-    if (submitted === false) {
+    if (jobObject.submitted === false) {
       return(
         <div className="work-form">
         <br/>
@@ -76,7 +88,7 @@ export default function Work(){
         </label>
         <button className="submit" onClick={Submit}>Submit</button>
         </div>
-    )} else if (submitted === true){
+    )} else if (jobObject.submitted === true){
       return(
         <div className="work-submit">
         <br/>
@@ -93,13 +105,13 @@ export default function Work(){
   }
 
   function Add() {
-    editJobs([...jobs, {id:crypto.randomUUID(), company:"", role:"", responsibility:"", date:"", submitted:false}])
+    editJobs([...copyjobs, {id:crypto.randomUUID(), company:"", role:"", responsibility:"", date:"", submitted:false}])
   }
 
   return(
     <div className="work">
     <h1>Work</h1>
-    {jobs.map(workplace => <Job key={workplace.id} id={workplace.id} companyprop={workplace.company} roleprop={workplace.role} responseprop={workplace.responsibility} dateprop={workplace.date} submitted={workplace.submitted}/>)}
+    {jobs.map(workplace => <Job key={workplace.id} jobObject={workplace}/>)}
     <button className="add" onClick={Add}>+</button>
     </div>
   )
