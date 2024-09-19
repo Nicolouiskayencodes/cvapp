@@ -100,7 +100,7 @@ export default function Education(){
 
   return(
     <div className="education">
-    <h1>Eduction</h1>
+    <h1>Education</h1>
     {schools.map(place => <School key={place.id} schoolObject={place}/>)}
     <button className="add" onClick={Add}>+</button>
     </div>
